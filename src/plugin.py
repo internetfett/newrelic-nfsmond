@@ -58,7 +58,7 @@ class NFSPlugin(object):
             raise e
 
     def _update_stats(self):
-        command = "df -P -T " + self.filesystem_type
+        command = "df -P -t " + self.filesystem_type
         output = os.popen(command).read().splitlines()
         for idx, line in enumerate(output[1:]):
             try:

@@ -65,10 +65,10 @@ class NFSPlugin(object):
                 device, size, used, available, percent, mountpoint = line.split()
                 prefix = 'Component/NFS/Volume' + mountpoint
                 self.metric_data = {
-                    prefix + '/Size[bytes]': size,
-                    prefix + '/Used[bytes]': used,
-                    prefix + '/Available[bytes]': available,
-                    prefix + '/Percent': percent,
+                    prefix + '/Size[bytes]': int(size),
+                    prefix + '/Used[bytes]': int(used),
+                    prefix + '/Available[bytes]': int(available),
+                    prefix + '/Percent': percent.replace('%', ''),
                 }
             except ValueError:
                 pass

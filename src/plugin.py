@@ -64,12 +64,12 @@ class NFSPlugin(object):
             try:
                 device, size, used, available, percent, mountpoint = line.split()
                 prefix = 'Component/NFS/Volume' + mountpoint
-                self.metric_data = {
+                self.metric_data.update({
                     prefix + '/Size[bytes]': int(size),
                     prefix + '/Used[bytes]': int(used),
                     prefix + '/Available[bytes]': int(available),
-                    prefix + '/Percent': percent.replace('%', ''),
-                }
+                    prefix + '/Percent': int(percent.replace('%', '')),
+                })
             except ValueError:
                 pass
             except Exception, e:

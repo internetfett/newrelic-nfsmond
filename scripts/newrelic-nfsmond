@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import time
+
+from daemon import runner
+
+from newrelicnfsmond.plugin import NFSPlugin
+
+
+class RunApp:
+    def __init__(self):
+        self.data = NFSPlugin()
+        self.stdin_path = '/dev/null'
+        self.stdout_path = '/dev/null'
+        self.stderr_path = '/dev/null'
+        self.pidfile_path =  self.data.pid_file
+        self.pidfile_timeout = 5
+        self.files_preserve = self.getLogFileHandles(self.data.logger)
+        self.interval = self.data.interval
+
+    def getLogFileHandles(self,logger):
+        """ Get a list of filehandle numbers from logger
+            to be handed to DaemonContext.files_preserve
+        """
+        handles = []
+        for handler in logger.handlers:
+            handles.append(handler.stream.fileno())
+        if logger.parent:
+            handles += self.getLogFileHandles(logger.parent)
+        return handles
+
+    def run(self):
+        while True:
+            self.data.add_to_newrelic()
+            time.sleep(self.interval)
+
+class MyDaemonRunner(runner.DaemonRunner):
+    """ Extend the basic DaemonRunnner with file_preserve """
+    def __init__(self, app):
+        super(MyDaemonRunner, self).__init__(app)
+        app.data.logger.warning('Our Special Runner')
+        self.daemon_context.files_preserve = app.files_preserve
+
+app = RunApp()
+daemon_runner = MyDaemonRunner(app)
+daemon_runner.do_action()

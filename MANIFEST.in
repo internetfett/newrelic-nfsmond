@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+recurisve-include conf *
+recursive-include src *

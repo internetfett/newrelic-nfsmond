@@ -18,7 +18,10 @@ setup(
     packages=['newrelicnfsmond'],
     package_dir={'newrelicnfsmond': 'src'},
     scripts=['scripts/newrelic-nfsmond'],
-    data_files=[('/etc/init.d', ['scripts/init/newrelic-nfsmond'])],
+    data_files=[
+        ('/etc', ['conf/newrelic-nfsmond.conf']),
+        ('/etc/init.d', ['scripts/init/newrelic-nfsmond']),
+    ],
     install_requires=['python-daemon'],
     classifiers=[
         'Environment :: Web Environment',

@@ -12,7 +12,7 @@ setup(
     license='MIT License',
     description='NFS disk monitoring plugin for New Relic',
     author='Cody Kinsey',
-    author_email='internetfett@gmail.com',
+    author_email='ckinsey@efolder.net',
     url='https://github.com/internetfett/newrelic-nfsmond',
     long_description='A plugin for New Relic to gather information on NFS disk space',
     packages=['newrelicnfsmond'],
